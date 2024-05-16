@@ -14,6 +14,6 @@ https://www.figma.com/design/Z3cjZzQYfKxmZt9Paq2F22/Untitled?node-id=0-1
 
 
 
-### run frontend: cd frontend + npm run start
+## run frontend: cd frontend + npm run start
 
-### run backend: cd backend + npm run server
+## run backend: cd backend + npm run server
