@@ -6,7 +6,7 @@ const adSchema = new mongoose.Schema({
     required: true,
   },
   price: {
-    type: Number,
+    type: String,
     required: true,
   },
   description: {
@@ -26,11 +26,9 @@ const adSchema = new mongoose.Schema({
   like_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Like",
-    required: true,
   },
   comment_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Comment",
-    required: true,
   },
 });

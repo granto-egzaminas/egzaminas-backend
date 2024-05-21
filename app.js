@@ -10,6 +10,7 @@ connectToDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/categories", require("./routes/categoryRoutes"));
 
 const PORT = 5000;
 app.listen(PORT, () => {
