@@ -5,13 +5,15 @@ const {
   loginUser,
   logoutUser,
   getUser,
-} = require("../controllers/userController.js");
-
+} = require("../controllers/userController");
+const { verifyToken } = require("../middleware/authMiddleware");
 // /api/users/
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
-router.get("/user", getUser);
+router.get("/", verifyToken, (req, res) => {
+  res.json(req.user);
+});
 
 module.exports = router;

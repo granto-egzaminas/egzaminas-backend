@@ -3,11 +3,11 @@ const Category = require("../models/categoryModel");
 
 class AdService {
   async createAd(image, price, description, categoryId, userId) {
-    if (!image || !price || !description || !categoryId || !userId) {
+    if (!image || !price || !description || !categoryId) {
       throw new Error("Please fill all fields");
     }
-    const categoryExists = await Category.findById({ _id: categoryId });
-    if (!categoryExists) {
+    const category = await Category.findById(categoryId);
+    if (!category) {
       throw new Error("The category does not exist");
     }
 

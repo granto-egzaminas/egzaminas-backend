@@ -17,7 +17,7 @@ class UserService {
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-      throw new Error("User already exists");
+      throw new Error("Email already registered");
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -60,6 +60,7 @@ class UserService {
     };
   }
 
+  // to do logout
   async logoutUser(userId) {
     return { message: "Logged out sucessfully" };
   }

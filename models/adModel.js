@@ -32,3 +32,5 @@ const adSchema = new mongoose.Schema({
     ref: "Comment",
   },
 });
+
+module.exports = mongoose.model("Ad", adSchema);
