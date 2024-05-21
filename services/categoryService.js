@@ -33,9 +33,6 @@ class CategoryService {
 
   async deleteCategoryById(id) {
     const result = await Category.deleteOne({ _id: id });
-    if (!result) {
-      throw new Error("Category not found");
-    }
     return result;
   }
 }
