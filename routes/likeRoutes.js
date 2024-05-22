@@ -10,7 +10,7 @@ const {
 
 // @ /api/likes/
 
-router.post("/", verifyToken, createLike);
-router.delete("/", verifyToken, deleteLikeByUserIdAndAdId);
+router.post("/", createLike);
+router.delete("/", deleteLikeByUserIdAndAdId);
 
 module.exports = router;

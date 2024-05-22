@@ -14,10 +14,10 @@ const {
 
 // @ /api/ads/
 
-router.post("/", verifyToken, createAd);
+router.post("/", createAd);
 router.get("/", getAllAds);
 router.get("/:id", getAdById);
-router.put("/:id", verifyToken, updateAd);
-router.delete("/:id", verifyToken, deleteAd);
+router.put("/:id", updateAd);
+router.delete("/:id", deleteAd);
 router.get("/user/:id", getAdsByUserId);
 module.exports = router;

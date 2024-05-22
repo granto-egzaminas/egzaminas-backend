@@ -6,13 +6,13 @@ const {
   logoutUser,
   getUser,
 } = require("../controllers/userController");
-const { verifyToken } = require("../middleware/authMiddleware");
+const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
 // /api/users/
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
-router.get("/", verifyToken, (req, res) => {
+router.get("/", checkAdminRole, (req, res) => {
   res.json(req.user);
 });
 
