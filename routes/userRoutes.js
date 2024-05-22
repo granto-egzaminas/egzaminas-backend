@@ -11,7 +11,7 @@ const { verifyToken } = require("../middleware/authMiddleware");
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.post("/logout", logoutUser);
+router.post("/logout", verifyToken, logoutUser);
 router.get("/", verifyToken, (req, res) => {
   res.json(req.user);
 });
