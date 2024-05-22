@@ -1,16 +1,17 @@
 const express = require("express");
 const router = express.Router();
 
-const { verifyToken } = require("../middleware/authMiddleware");
-
 const {
   createLike,
   deleteLikeByUserIdAndAdId,
 } = require("../controllers/likeController");
 
+// middleware:
+const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
+
 // @ /api/likes/
 
-router.post("/", createLike);
-router.delete("/", deleteLikeByUserIdAndAdId);
+router.post("/", verifyToken, createLike);
+router.delete("/", verifyToken, deleteLikeByUserIdAndAdId);
 
 module.exports = router;

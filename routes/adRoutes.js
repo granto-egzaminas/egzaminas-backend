@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const { verifyToken } = require("../middleware/authMiddleware");
-
 const {
   createAd,
   getAllAds,
@@ -12,12 +10,16 @@ const {
   deleteAd,
 } = require("../controllers/adController");
 
+// middleware:
+const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
+
 // @ /api/ads/
 
-router.post("/", createAd);
-router.get("/", getAllAds);
-router.get("/:id", getAdById);
-router.put("/:id", updateAd);
-router.delete("/:id", deleteAd);
-router.get("/user/:id", getAdsByUserId);
+router.post("/", verifyToken, createAd);
+router.get("/", verifyToken, getAllAds);
+router.get("/:id", verifyToken, getAdById);
+router.put("/:id", verifyToken, updateAd);
+router.delete("/:id", verifyToken, deleteAd);
+router.get("/user/:id", verifyToken, getAdsByUserId);
+
 module.exports = router;

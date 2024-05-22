@@ -1,3 +1,5 @@
+// userRoutes.js
+
 const express = require("express");
 const router = express.Router();
 const {
@@ -6,12 +8,15 @@ const {
   logoutUser,
   getUser,
 } = require("../controllers/userController");
+
+// middleware:
 const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
+
 // /api/users/
 
-router.post("/register", registerUser);
-router.post("/login", loginUser);
-router.post("/logout", logoutUser);
-router.get("/", getUser);
+router.post("/register", registerUser); // nedeti verify
+router.post("/login", loginUser); // nedeti verify
+router.post("/logout", verifyToken, logoutUser);
+router.get("/", verifyToken, getUser);
 
 module.exports = router;
