@@ -68,6 +68,9 @@ class AdService {
 
   async deleteAd(adId) {
     const result = await Ad.deleteOne({ _id: adId });
+    if (result.deletedCount === 0) {
+      throw new Error("Ad not found");
+    }
     return result;
   }
 }

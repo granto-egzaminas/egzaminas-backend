@@ -38,6 +38,17 @@ const getAdById = asyncHandler(async (req, res) => {
   }
 });
 
+const getAdsByUserId = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const ads = await adService.getAdsByUserId(userId);
+    res.status(200).json({ message: "Ads retrieved successfully", ads });
+  } catch (error) {
+    res.status(400).json({ error: "Ads retrieval failed: " + error.message });
+  }
+});
+
 const updateAd = asyncHandler(async (req, res) => {
   const updates = req.body;
   const adId = req.params.id;
@@ -54,21 +65,10 @@ const deleteAd = asyncHandler(async (req, res) => {
   const adId = req.params.id;
 
   try {
-    const ad = await adService.deleteAd(adId);
-    res.status(200).json({ message: "Ad deleted successfully", ad });
+    const result = await adService.deleteAd(adId);
+    res.status(200).json({ message: "Ad deleted successfully", result });
   } catch (error) {
     res.status(400).json({ error: "Ad deletion failed: " + error.message });
-  }
-});
-
-const getAdsByUserId = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
-
-  try {
-    const ads = await adService.getAdsByUserId(userId);
-    res.status(200).json({ message: "Ads retrieved successfully", ads });
-  } catch (error) {
-    res.status(400).json({ error: "Ads retrieval failed: " + error.message });
   }
 });
 

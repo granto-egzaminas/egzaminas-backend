@@ -23,14 +23,18 @@ const adSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  like_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Like",
-  },
-  comment_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Comment",
-  },
+  like_ids: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Like",
+    },
+  ],
+  comment_ids: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Ad", adSchema);
