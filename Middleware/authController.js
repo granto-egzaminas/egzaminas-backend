@@ -1,55 +1,28 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-// const User = require("user modelio vieta")
+const userService = require("../services/userService");
+const asyncHandler = require("express-async-handler");
 
-const registerUser = async (req, res) => {
+// user register
+const registerUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
+
   try {
-    const { username, password, role } = req.body;
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = new UserActivation({
-      username,
-      password: hashedPassword,
-      role,
-    });
-
-    await newUser.save();
-
-    res.json(newUser);
+    const user = await userService.registerUser(name, email, password);
+    res.status(201).json({ message: "Registration successful", user });
   } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Server Error");
+    res.status(400).json({ error: "Registration failed: " + error.message });
   }
-};
+});
 
-const loginUser = async (req, res) => {
+// user login
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
   try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
-
-    if (!user) {
-      return res.status(401).json("Invalid Credentials");
-    }
-
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) {
-      return res.status(401).json("Invalid Credentials");
-    }
-
-    const token = jwt.sign(
-      {
-        id: user._id,
-        role: user.role,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" },
-    );
-    res.json({ user, token });
+    const user = await userService.loginUser(email, password);
+    res.json({ message: "Login successful", user });
   } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Server Error");
+    res.status(400).json({ error: "Login failed: " + error.message });
   }
-};
+});
 
 module.exports = { registerUser, loginUser };

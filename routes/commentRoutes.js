@@ -12,9 +12,9 @@ const {
 
 // @ /api/comments/
 
-router.post("/", verifyToken, createComment);
+router.post("/", createComment);
 router.get("/:adId", getCommentsByAdId);
-router.put("/:id", verifyToken, updateComment);
-router.delete("/:id", verifyToken, deleteComment);
+router.put("/:id", updateComment);
+router.delete("/:id", deleteComment);
 
 module.exports = router;
