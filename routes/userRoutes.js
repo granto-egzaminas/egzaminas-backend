@@ -12,8 +12,6 @@ const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
-router.get("/", checkAdminRole, (req, res) => {
-  res.json(req.user);
-});
+router.get("/", getUser);
 
 module.exports = router;
