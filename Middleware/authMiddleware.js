@@ -25,3 +25,5 @@ const checkAdminRole = (req, res, next) => {
   console.log("User is an admin");
   next();
 };
+
+module.exports = { verifyToken, checkAdminRole };
