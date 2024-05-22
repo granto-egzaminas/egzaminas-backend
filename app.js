@@ -15,7 +15,7 @@ app.use("/api/ads", require("./routes/adRoutes"));
 app.use("/api/likes", require("./routes/likeRoutes"));
 app.use("/api/comments", require("./routes/commentRoutes"));
 
-const PORT = 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log("server is runing on port " + PORT);
+  console.log("server is running on port " + PORT);
 });

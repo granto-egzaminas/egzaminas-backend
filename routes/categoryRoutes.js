@@ -8,11 +8,14 @@ const {
   deleteCategoryById,
 } = require("../controllers/categoryController");
 
+// middleware:
+const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
+
 // @ api/categories
 
-router.post("/", createCategory);
-router.get("/", getAllCategories);
-router.get("/:id", getCategoryById);
-router.delete("/:id", deleteCategoryById);
+router.post("/", verifyToken, createCategory);
+router.get("/", verifyToken, getAllCategories);
+router.get("/:id", verifyToken, getCategoryById);
+router.delete("/:id", verifyToken, deleteCategoryById);
 
 module.exports = router;
