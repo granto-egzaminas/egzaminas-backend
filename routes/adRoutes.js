@@ -21,4 +21,5 @@ router.get("/:id", verifyToken, getAdById);
 router.put("/:id", verifyToken, updateAd);
 router.delete("/:id", verifyToken, deleteAd);
 router.get("/user/:id", verifyToken, getAdsByUserId);
+
 module.exports = router;
