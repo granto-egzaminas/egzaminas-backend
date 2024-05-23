@@ -1,5 +1,8 @@
-const asyncHandler = require("express-async-handler");
+/** @format */
 
+// controllers/adController.js
+
+const asyncHandler = require("express-async-handler");
 const adService = require("../services/adService");
 
 const createAd = asyncHandler(async (req, res) => {
@@ -72,6 +75,21 @@ const deleteAd = asyncHandler(async (req, res) => {
   }
 });
 
+const blockAd = asyncHandler(async (req, res) => {
+  const adId = req.params.id;
+
+  try {
+    const ad = await adService.getAdById(adId);
+    if (!ad) return res.status(404).json({ message: "Ad not found" });
+
+    ad.isBlocked = true;
+    await ad.save();
+    res.status(200).json({ message: "Ad blocked successfully", ad });
+  } catch (error) {
+    res.status(400).json({ error: "Ad blocking failed: " + error.message });
+  }
+});
+
 module.exports = {
   createAd,
   getAllAds,
@@ -79,4 +97,5 @@ module.exports = {
   getAdsByUserId,
   updateAd,
   deleteAd,
+  blockAd,
 };
