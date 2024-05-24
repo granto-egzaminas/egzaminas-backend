@@ -22,6 +22,8 @@ class CommentService {
       $push: { comment_ids: comment._id },
     });
 
+    console.log(adId, userId);
+
     return comment;
   }
 
