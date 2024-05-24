@@ -1,5 +1,6 @@
 const Ad = require("../models/adModel");
 const Category = require("../models/categoryModel");
+const User = require("../models/userModel");
 
 class AdService {
   async createAd(image, price, description, categoryId, userId) {
@@ -17,6 +18,10 @@ class AdService {
       description: description,
       category_id: categoryId,
       user_id: userId,
+    });
+
+    await User.findByIdAndUpdate(userId, {
+      $push: { ad_ids: ad._id },
     });
     return ad;
   }
@@ -66,11 +71,16 @@ class AdService {
     return result;
   }
 
-  async deleteAd(adId) {
+  async deleteAd(adId, userId) {
     const result = await Ad.deleteOne({ _id: adId });
     if (result.deletedCount === 0) {
       throw new Error("Ad not found");
     }
+
+    await User.findByIdAndUpdate(userId, {
+      $pull: { ad_ids: adId },
+    });
+
     return result;
   }
 }
