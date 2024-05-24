@@ -1,3 +1,5 @@
+/** @format */
+
 // userController.js
 
 const userService = require("../services/userService");
@@ -25,7 +27,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" },
+      { expiresIn: "1h" }
     );
     res.json({ message: "Login successful", user, token });
   } catch (error) {
@@ -57,4 +59,19 @@ const getUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, loginUser, logoutUser, getUser };
+const blockUser = asyncHandler(async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await userService.getUser(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.isBlocked = true;
+    await user.save();
+    res.status(200).json({ message: "User blocked successfully", user });
+  } catch (error) {
+    res.status(400).json({ error: "User blocking failed: " + error.message });
+  }
+});
+
+module.exports = { registerUser, loginUser, logoutUser, getUser, blockUser };
