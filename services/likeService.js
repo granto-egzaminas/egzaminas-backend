@@ -21,8 +21,6 @@ class LikeService {
       $push: { like_ids: like._id },
     });
 
-    console.log(like._id);
-
     return like;
   }
 

@@ -5,9 +5,8 @@ const commentService = require("../services/commentService");
 const createComment = asyncHandler(async (req, res) => {
   const { adId, text } = req.body;
   const userId = req.user.id;
-  console.log(adId, userId);
   try {
-    const comment = await commentService.createComment(userId, adId, text);
+    const comment = await commentService.createComment(adId, userId, text);
     res.status(201).json({ message: "Comment created successfully", comment });
   } catch (error) {
     res
