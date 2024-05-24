@@ -16,7 +16,7 @@ const createComment = asyncHandler(async (req, res) => {
 });
 
 const getCommentsByAdId = asyncHandler(async (req, res) => {
-  const adId = req.params.adId;
+  const adId = req.params.id;
 
   try {
     const comments = await commentService.getCommentsByAdId(adId);
