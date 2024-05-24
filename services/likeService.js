@@ -17,14 +17,6 @@ class LikeService {
       ad_id: adId,
     });
 
-    //! butina supushinti ir updatinti arrejus po operaciju
-    const ad = await Ad.findById(adId);
-    if (!ad) {
-      throw new Error("Ad not found");
-    }
-    ad.like_ids.push(like._id);
-    await ad.save();
-
     return like;
   }
 
@@ -33,12 +25,12 @@ class LikeService {
       throw new Error("Missing userId or adId");
     }
 
-    const result = await Like.deleteOne({
+    const like = await Like.findOneAndDelete({
       user_id: userId,
       ad_id: adId,
     });
 
-    if (result.deletedCount === 0) {
+    if (!like) {
       throw new Error("Like not found");
     }
 
@@ -50,6 +42,11 @@ class LikeService {
     await ad.save();
 
     return result;
+    await Ad.findByIdAndUpdate(adId, {
+      $pull: { like_ids: like._id },
+    });
+
+    return like;
   }
 
   async getLikesByUserId(userId) {
@@ -59,8 +56,8 @@ class LikeService {
 
     const likes = await Like.find({ user_id: userId });
 
-    if (!likes) {
-      throw new Error("No likes found for this user not found");
+    if (!likes || likes.length === 0) {
+      throw new Error("No likes found for this user");
     }
     return likes;
   }

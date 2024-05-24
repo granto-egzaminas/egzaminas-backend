@@ -1,3 +1,5 @@
+/** @format */
+
 const User = require("../models/userModel.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -33,7 +35,6 @@ class UserService {
       _id: user.id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
       role: user.role,
     };
   }
@@ -55,7 +56,6 @@ class UserService {
       _id: user.id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
       role: user.role,
     };
   }

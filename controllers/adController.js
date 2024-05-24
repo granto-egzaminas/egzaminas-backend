@@ -66,9 +66,10 @@ const updateAd = asyncHandler(async (req, res) => {
 
 const deleteAd = asyncHandler(async (req, res) => {
   const adId = req.params.id;
+  const userId = req.user.id;
 
   try {
-    const result = await adService.deleteAd(adId);
+    const result = await adService.deleteAd(adId, userId);
     res.status(200).json({ message: "Ad deleted successfully", result });
   } catch (error) {
     res.status(400).json({ error: "Ad deletion failed: " + error.message });
