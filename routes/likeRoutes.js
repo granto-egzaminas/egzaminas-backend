@@ -12,8 +12,8 @@ const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
 
 // @ /api/likes/
 
-router.post("/", verifyToken, createLike);
-router.delete("/", verifyToken, deleteLikeByUserIdAndAdId);
+router.post("/ad/:id", verifyToken, createLike);
+router.delete("/ad/:id", verifyToken, deleteLikeByUserIdAndAdId);
 router.get("/", verifyToken, getLikesByUserId);
 
 module.exports = router;

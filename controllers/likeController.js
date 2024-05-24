@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 const likeService = require("../services/likeService");
 
 const createLike = asyncHandler(async (req, res) => {
-  const { adId } = req.body;
+  const adId = req.params.id;
   const userId = req.user.id;
 
   try {
@@ -15,7 +15,7 @@ const createLike = asyncHandler(async (req, res) => {
 });
 
 const deleteLikeByUserIdAndAdId = asyncHandler(async (req, res) => {
-  const { adId } = req.body;
+  const adId = req.params.id;
   const userId = req.user.id;
 
   try {
