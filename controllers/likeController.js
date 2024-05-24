@@ -26,4 +26,19 @@ const deleteLikeByUserIdAndAdId = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createLike, deleteLikeByUserIdAndAdId };
+const getLikesByUserId = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const likes = await likeService.getLikesByUserId(userId);
+    res
+      .status(200)
+      .json({ message: "User likes retrieved successfully", likes });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ error: "User likes retrieval failed: " + error.message });
+  }
+});
+
+module.exports = { createLike, deleteLikeByUserIdAndAdId, getLikesByUserId };
