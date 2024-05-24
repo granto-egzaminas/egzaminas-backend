@@ -9,7 +9,6 @@ const {
   loginUser,
   logoutUser,
   getUser,
-  blockUser,
 } = require("../controllers/userController");
 
 // middleware:
@@ -21,6 +20,6 @@ router.post("/register", registerUser); // No verifyToken needed
 router.post("/login", loginUser); // No verifyToken needed
 router.post("/logout", verifyToken, logoutUser);
 router.get("/", verifyToken, getUser);
-router.patch("/block/:id", verifyToken, checkAdminRole, blockUser); // New route for blocking users
+router.patch("/block/:id", verifyToken, checkAdminRole); // New route for blocking users
 
 module.exports = router;
