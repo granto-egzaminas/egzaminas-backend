@@ -1,4 +1,5 @@
 const Like = require("../models/likeModel");
+const Ad = require("../models/adModel");
 
 class LikeService {
   async createLike(userId, adId) {
@@ -15,6 +16,15 @@ class LikeService {
       user_id: userId,
       ad_id: adId,
     });
+
+    //! butina supushinti ir updatinti arrejus po operaciju
+    const ad = await Ad.findById(adId);
+    if (!ad) {
+      throw new Error("Ad not found");
+    }
+    ad.like_ids.push(like._id);
+    await ad.save();
+
     return like;
   }
 
@@ -31,6 +41,13 @@ class LikeService {
     if (result.deletedCount === 0) {
       throw new Error("Like not found");
     }
+
+    const ad = await Ad.findById(adId);
+    if (!ad) {
+      throw new Error("Ad not found");
+    }
+    ad.like_ids.pull({ _id: like._id });
+    await ad.save();
 
     return result;
   }

@@ -15,7 +15,7 @@ const createAd = asyncHandler(async (req, res) => {
       price,
       description,
       categoryId,
-      userId
+      userId,
     );
     res.status(201).json({ message: "Ad created successfully", ad });
   } catch (error) {

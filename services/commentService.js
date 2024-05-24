@@ -1,4 +1,5 @@
 const Comment = require("../models/commentModel");
+const Ad = require("../models/adModel");
 
 class CommentService {
   async createComment(adId, userId, text) {
@@ -11,6 +12,14 @@ class CommentService {
       user_id: userId,
       text: text,
     });
+
+    const ad = await Ad.findById(adId);
+    if (!ad) {
+      throw new Error("Ad not found");
+    }
+    ad.comment_ids.push(comment._id);
+    await ad.save();
+
     return comment;
   }
 
@@ -40,6 +49,14 @@ class CommentService {
     if (result.deletedCount === 0) {
       throw new Error("Comment not found");
     }
+
+    const ad = await Ad.findById(comment.ad_id);
+    if (!ad) {
+      throw new Error("Ad not found");
+    }
+    ad.comment_ids.pull(comment._id);
+    await ad.save();
+
     return result;
   }
 }
