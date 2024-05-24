@@ -14,7 +14,7 @@ const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
 // @ /api/comments/
 
 router.post("/", verifyToken, createComment);
-router.get("/:adId", verifyToken, getCommentsByAdId);
+router.get("/:adId", getCommentsByAdId);
 router.put("/:id", verifyToken, updateComment);
 router.delete("/:id", verifyToken, deleteComment);
 

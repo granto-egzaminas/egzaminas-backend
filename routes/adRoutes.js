@@ -21,7 +21,7 @@ const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
 // @ /api/ads/
 
 router.post("/", verifyToken, createAd);
-router.get("/", verifyToken, getAllAds);
+router.get("/", getAllAds);
 router.get("/:id", verifyToken, getAdById);
 router.put("/:id", verifyToken, updateAd);
 router.delete("/:id", verifyToken, deleteAd);
