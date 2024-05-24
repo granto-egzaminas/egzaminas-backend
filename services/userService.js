@@ -35,7 +35,6 @@ class UserService {
       _id: user.id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
       role: user.role,
     };
   }
@@ -57,7 +56,6 @@ class UserService {
       _id: user.id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
       role: user.role,
     };
   }

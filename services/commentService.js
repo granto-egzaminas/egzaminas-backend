@@ -1,4 +1,6 @@
 const Comment = require("../models/commentModel");
+const Ad = require("../models/adModel");
+const User = require("../models/userModel");
 
 class CommentService {
   async createComment(adId, userId, text) {
@@ -11,6 +13,15 @@ class CommentService {
       user_id: userId,
       text: text,
     });
+
+    await Ad.findByIdAndUpdate(adId, {
+      $push: { comment_ids: comment._id },
+    });
+
+    await User.findByIdAndUpdate(userId, {
+      $push: { comment_ids: comment._id },
+    });
+
     return comment;
   }
 
@@ -35,11 +46,20 @@ class CommentService {
     return result;
   }
 
-  async deleteComment(commentId) {
+  async deleteComment(commentId, userId) {
     const result = await Comment.deleteOne({ _id: commentId });
     if (result.deletedCount === 0) {
       throw new Error("Comment not found");
     }
+
+    await Ad.findByIdAndUpdate(adId, {
+      $pull: { comment_ids: commentId },
+    });
+
+    await User.findByIdAndUpdate(userId, {
+      $pull: { comment_ids: commentId },
+    });
+
     return result;
   }
 }

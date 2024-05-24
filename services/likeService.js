@@ -1,4 +1,5 @@
 const Like = require("../models/likeModel");
+const Ad = require("../models/adModel");
 
 class LikeService {
   async createLike(userId, adId) {
@@ -15,6 +16,11 @@ class LikeService {
       user_id: userId,
       ad_id: adId,
     });
+
+    await Ad.findByIdAndUpdate(adId, {
+      $push: { like_ids: like._id },
+    });
+
     return like;
   }
 
@@ -23,16 +29,20 @@ class LikeService {
       throw new Error("Missing userId or adId");
     }
 
-    const result = await Like.deleteOne({
+    const like = await Like.findOneAndDelete({
       user_id: userId,
       ad_id: adId,
     });
 
-    if (result.deletedCount === 0) {
+    if (!like) {
       throw new Error("Like not found");
     }
 
-    return result;
+    await Ad.findByIdAndUpdate(adId, {
+      $pull: { like_ids: like._id },
+    });
+
+    return like;
   }
 
   async getLikesByUserId(userId) {
@@ -42,8 +52,8 @@ class LikeService {
 
     const likes = await Like.find({ user_id: userId });
 
-    if (!likes) {
-      throw new Error("No likes found for this user not found");
+    if (!likes || likes.length === 0) {
+      throw new Error("No likes found for this user");
     }
     return likes;
   }
