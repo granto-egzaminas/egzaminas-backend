@@ -34,6 +34,19 @@ class LikeService {
 
     return result;
   }
+
+  async getLikesByUserId(userId) {
+    if (!userId) {
+      throw new Error("Missing userId");
+    }
+
+    const likes = await Like.find({ user_id: userId });
+
+    if (!likes) {
+      throw new Error("No likes found for this user not found");
+    }
+    return likes;
+  }
 }
 
 module.exports = new LikeService();
