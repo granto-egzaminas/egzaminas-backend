@@ -59,6 +59,16 @@ const getUser = asyncHandler(async (req, res) => {
   }
 });
 
+// get users
+const getUsers = asyncHandler(async (req, res) => {
+  try {
+    const users = await userService.getUsers();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(400).json({ error: "Failed to get users: " + error.message });
+  }
+});
+
 const blockUser = asyncHandler(async (req, res) => {
   const userId = req.params.id;
 
@@ -74,4 +84,4 @@ const blockUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, loginUser, logoutUser, getUser, blockUser };
+module.exports = { registerUser, loginUser, logoutUser, getUser, getUsers, blockUser };

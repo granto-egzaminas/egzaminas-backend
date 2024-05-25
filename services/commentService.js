@@ -3,6 +3,7 @@ const Ad = require("../models/adModel");
 const User = require("../models/userModel");
 
 class CommentService {
+  
   async createComment(adId, userId, text) {
     if (!adId || !userId || !text) {
       throw new Error("Please add all info");
@@ -14,6 +15,12 @@ class CommentService {
       text: text,
     });
 
+    const ad = await Ad.findById(adId);
+    if (!ad) {
+      throw new Error("Ad not found");
+    }
+    ad.comment_ids.push(comment._id);
+    await ad.save();
     await Ad.findByIdAndUpdate(adId, {
       $push: { comment_ids: comment._id },
     });
@@ -51,15 +58,6 @@ class CommentService {
     if (result.deletedCount === 0) {
       throw new Error("Comment not found");
     }
-
-    await Ad.findByIdAndUpdate(adId, {
-      $pull: { comment_ids: commentId },
-    });
-
-    await User.findByIdAndUpdate(userId, {
-      $pull: { comment_ids: commentId },
-    });
-
     return result;
   }
 }
