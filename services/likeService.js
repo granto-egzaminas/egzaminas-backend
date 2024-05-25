@@ -1,5 +1,6 @@
 const Like = require("../models/likeModel");
 const Ad = require("../models/adModel");
+const User = require("../models/userModel");
 
 class LikeService {
   async createLike(userId, adId) {
@@ -21,6 +22,10 @@ class LikeService {
       $push: { like_ids: like._id },
     });
 
+    await User.findByIdAndUpdate(userId, {
+      $push: { like_ids: like._id },
+    });
+
     return like;
   }
 
@@ -39,6 +44,10 @@ class LikeService {
     }
 
     await Ad.findByIdAndUpdate(adId, {
+      $pull: { like_ids: like._id },
+    });
+
+    await User.findByIdAndUpdate(userId, {
       $pull: { like_ids: like._id },
     });
 
