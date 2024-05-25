@@ -2,6 +2,8 @@ const Ad = require("../models/adModel");
 const Category = require("../models/categoryModel");
 const User = require("../models/userModel");
 
+const { populate } = require("../models/adModel");
+
 class AdService {
   async createAd(image, price, description, categoryId, userId) {
     if (!image || !price || !description || !categoryId || !userId) {
@@ -27,7 +29,8 @@ class AdService {
   }
 
   async getAllAds() {
-    const ads = await Ad.find();
+    const ads = await Ad.find().populate("like_ids").populate("category_id");
+
     return ads;
   }
   async getAdById(adId) {
