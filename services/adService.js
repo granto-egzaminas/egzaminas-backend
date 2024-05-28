@@ -29,12 +29,14 @@ class AdService {
   }
 
   async getAllAds() {
-    const ads = await Ad.find().populate("like_ids").populate("category_id");
+    const ads = await Ad.find()
+      .populate("like_ids")
+      .populate("category_id", "name");
 
     return ads;
   }
   async getAdById(adId) {
-    const ad = await Ad.findById(adId);
+    const ad = await Ad.findById(adId).populate("category_id", "name");
 
     if (!ad) {
       throw new Error("Ad not found");
@@ -43,7 +45,10 @@ class AdService {
   }
 
   async getAdsByUserId(userId) {
-    const ads = await Ad.find({ user_id: userId });
+    const ads = await Ad.find({ user_id: userId }).populate(
+      "category_id",
+      "name",
+    );
     return ads;
   }
 
@@ -70,7 +75,6 @@ class AdService {
     }
 
     const result = await ad.save();
-
     return result;
   }
 
