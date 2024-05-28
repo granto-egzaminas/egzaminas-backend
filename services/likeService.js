@@ -70,6 +70,26 @@ class LikeService {
     }
     return likes;
   }
+
+  async getLikesByAdId(adId) {
+    if (!adId) {
+      throw new Error("Missing adId");
+    }
+
+    const likes = await Like.find({ ad_id: adId });
+    return likes;
+  }
+
+  async checkIfAdIsLikedByUser(userId, adId) {
+    if (!userId || !adId) {
+      throw new Error("Missing userId or adId");
+    }
+    const like = await Like.findOne({ user_id: userId, ad_id: adId });
+    if (!like) {
+      return false;
+    }
+    return true;
+  }
 }
 
 module.exports = new LikeService();

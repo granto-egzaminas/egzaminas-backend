@@ -41,4 +41,37 @@ const getLikesByUserId = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createLike, deleteLikeByUserIdAndAdId, getLikesByUserId };
+const getLikesByAdId = asyncHandler(async (req, res) => {
+  const adId = req.params.id;
+  try {
+    const likes = await likeService.getLikesByAdId(adId);
+    res.status(200).json({ message: "Ad likes retrieved successfully", likes });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ error: "Ad likes retrieval failed: " + error.message });
+  }
+});
+
+const checkIfAdIsLikedByUser = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const adId = req.params.id;
+  try {
+    const isLiked = await likeService.checkIfAdIsLikedByUser(userId, adId);
+    res
+      .status(200)
+      .json({ message: "Like check result retrieved successfully", isLiked });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ error: "Like check result retrieval failed: " + error.message });
+  }
+});
+
+module.exports = {
+  createLike,
+  deleteLikeByUserIdAndAdId,
+  getLikesByUserId,
+  getLikesByAdId,
+  checkIfAdIsLikedByUser,
+};
