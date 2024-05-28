@@ -33,6 +33,12 @@ const userSchema = new mongoose.Schema(
         ref: "Like",
       },
     ],
+    favorite_ids: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Favorite",
+      },
+    ],
   },
   {
     timestamps: true,

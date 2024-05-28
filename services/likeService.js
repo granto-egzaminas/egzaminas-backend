@@ -46,7 +46,7 @@ class LikeService {
     ad.like_ids.pull({ _id: like._id });
     await ad.save();
 
-    return result;
+    return like;
     await Ad.findByIdAndUpdate(adId, {
       $pull: { like_ids: like._id },
     });
@@ -69,6 +69,26 @@ class LikeService {
       throw new Error("No likes found for this user");
     }
     return likes;
+  }
+
+  async getLikesByAdId(adId) {
+    if (!adId) {
+      throw new Error("Missing adId");
+    }
+
+    const likes = await Like.find({ ad_id: adId });
+    return likes;
+  }
+
+  async checkIfAdIsLikedByUser(userId, adId) {
+    if (!userId || !adId) {
+      throw new Error("Missing userId or adId");
+    }
+    const like = await Like.findOne({ user_id: userId, ad_id: adId });
+    if (!like) {
+      return false;
+    }
+    return true;
   }
 }
 
