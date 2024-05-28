@@ -3,7 +3,8 @@ const asyncHandler = require("express-async-handler");
 const commentService = require("../services/commentService");
 
 const createComment = asyncHandler(async (req, res) => {
-  const { adId, text } = req.body;
+  const adId = req.params.id;
+  const { text } = req.body;
   const userId = req.user.id;
   try {
     const comment = await commentService.createComment(adId, userId, text);
