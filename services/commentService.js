@@ -3,7 +3,6 @@ const Ad = require("../models/adModel");
 const User = require("../models/userModel");
 
 class CommentService {
-  
   async createComment(adId, userId, text) {
     if (!adId || !userId || !text) {
       throw new Error("Please add all info");
@@ -33,7 +32,10 @@ class CommentService {
   }
 
   async getCommentsByAdId(adId) {
-    const comments = await Comment.find({ ad_id: adId });
+    const comments = await Comment.find({ ad_id: adId }).populate(
+      "user_id",
+      "name"
+    );
     if (!comments) {
       throw new Error("No comments for this ad found");
     }
