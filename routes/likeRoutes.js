@@ -17,7 +17,7 @@ const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
 router.post("/ad/:id", verifyToken, createLike);
 router.delete("/ad/:id", verifyToken, deleteLikeByUserIdAndAdId);
 router.get("/ad/:id", getLikesByAdId);
-router.get("/ad/:id", verifyToken, checkIfAdIsLikedByUser);
+router.get("/ad/:id/isLiked", verifyToken, checkIfAdIsLikedByUser);
 router.get("/", verifyToken, getLikesByUserId);
 
 module.exports = router;

@@ -46,7 +46,7 @@ class LikeService {
     ad.like_ids.pull({ _id: like._id });
     await ad.save();
 
-    return result;
+    return like;
     await Ad.findByIdAndUpdate(adId, {
       $pull: { like_ids: like._id },
     });

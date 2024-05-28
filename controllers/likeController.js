@@ -19,8 +19,8 @@ const deleteLikeByUserIdAndAdId = asyncHandler(async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const result = await likeService.deleteLikeByUserIdAndAdId(userId, adId);
-    res.status(200).json({ message: "Like deleted successfully", result });
+    const like = await likeService.deleteLikeByUserIdAndAdId(userId, adId);
+    res.status(200).json({ message: "Like deleted successfully", like });
   } catch (error) {
     res.status(400).json({ error: "Like deletion failed: " + error.message });
   }
