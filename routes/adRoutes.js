@@ -12,7 +12,7 @@ const {
   getAdsByUserId,
   updateAd,
   deleteAd,
-  blockAd,
+  blockAd, // Import the controller function for blocking ads
 } = require("../controllers/adController");
 
 // middleware:
@@ -25,7 +25,7 @@ router.get("/", getAllAds);
 router.get("/:id", verifyToken, getAdById);
 router.put("/:id", verifyToken, updateAd);
 router.delete("/:id", verifyToken, deleteAd);
-router.patch("/block/:id", verifyToken, checkAdminRole, blockAd); // New route for blocking ads
+router.patch("/block/:id", verifyToken, checkAdminRole, blockAd); // Use PATCH for blocking ads
 router.get("/user/:id", verifyToken, getAdsByUserId);
 
 module.exports = router;

@@ -1,3 +1,5 @@
+/** @format */
+
 const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
@@ -17,6 +19,7 @@ const verifyToken = (req, res, next) => {
 };
 
 const checkAdminRole = (req, res, next) => {
+  console.log("req.user:", req.user);
   console.log("Checking admin role of user:", req.user.id);
   if (req.user.role !== "admin") {
     console.log("User is not admin");

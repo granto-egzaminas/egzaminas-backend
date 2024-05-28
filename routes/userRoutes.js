@@ -10,18 +10,17 @@ const {
   logoutUser,
   getUser,
   getUsers,
+  blockUser,
 } = require("../controllers/userController");
 
-// middleware:
+// Middleware
 const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
 
-// /api/users/
-
+// Routes
 router.post("/register", registerUser); // No verifyToken needed
 router.post("/login", loginUser); // No verifyToken needed
 router.post("/logout", verifyToken, logoutUser);
 router.get("/:id", verifyToken, getUser);
 router.get("/", verifyToken, getUsers);
-router.patch("/block/:id", verifyToken, checkAdminRole); // New route for blocking users
-
+router.delete("/:id", verifyToken, checkAdminRole, blockUser);
 module.exports = router;
