@@ -35,6 +35,12 @@ const adSchema = new mongoose.Schema({
       ref: "Comment",
     },
   ],
+  favorite_ids: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Favorite",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Ad", adSchema);
