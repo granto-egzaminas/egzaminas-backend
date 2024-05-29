@@ -1,4 +1,10 @@
+/** @format */
+
+// authMiddleware.js
+/** @format */
+
 const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
 
 const verifyToken = (req, res, next) => {
   const bearerHeader = req.header("Authorization");
@@ -16,14 +22,29 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-const checkAdminRole = (req, res, next) => {
-  console.log("Checking admin role of user:", req.user.id);
-  if (req.user.role !== "admin") {
-    console.log("User is not admin");
-    return res.status(403).send("Access Denied. Admin role required.");
+const checkAdminRole = async (req, res, next) => {
+  try {
+    console.log("req.user:", req.user);
+    console.log("Checking admin role of user:", req.user.id);
+
+    // Fetch the user from the database
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      console.log("User not found");
+      return res.status(404).send("User not found");
+    }
+
+    if (user.role !== "admin") {
+      console.log("User is not admin");
+      return res.status(403).send("Access Denied. Admin role required.");
+    }
+
+    console.log("User is an admin");
+    next();
+  } catch (error) {
+    console.error("Error checking admin role:", error);
+    res.status(500).send("Server error");
   }
-  console.log("User is an admin");
-  next();
 };
 
 module.exports = { verifyToken, checkAdminRole };

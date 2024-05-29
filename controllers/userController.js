@@ -1,10 +1,10 @@
 /** @format */
 
 // userController.js
-
 const userService = require("../services/userService");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
+const User = require("../models/userModel"); // Add this line
 
 // user register
 const registerUser = asyncHandler(async (req, res) => {
@@ -69,18 +69,25 @@ const getUsers = asyncHandler(async (req, res) => {
   }
 });
 
+// Block user
 const blockUser = asyncHandler(async (req, res) => {
-  const userId = req.params.id;
-
   try {
-    const user = await userService.getUser(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    user.isBlocked = true;
-    await user.save();
-    res.status(200).json({ message: "User blocked successfully", user });
+    const userId = req.params.id;
+    console.log(`Deleting user with ID: ${userId}`);
+    // Check if user exists in database
+    const user = await User.findById(userId);
+    if (!user) {
+      console.log(`User not found: ${userId}`);
+      return res.status(404).send({ error: "User not found" });
+    }
+    console.log(`Found user: ${user}`);
+    // Delete user from database
+    await User.deleteOne({ _id: userId });
+    console.log(`User deleted successfully: ${userId}`);
+    res.status(200).send({ message: "User deleted successfully" });
   } catch (error) {
-    res.status(400).json({ error: "User blocking failed: " + error.message });
+    console.error(`Error deleting user: ${error}`);
+    res.status(400).send({ error: "User deletion failed" });
   }
 });
 
