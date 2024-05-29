@@ -66,16 +66,12 @@ class UserService {
   }
 
   async getUser(userId) {
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select("-password");
     if (!user) {
       throw new Error("User not found");
     }
-    return {
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    };
+
+    return user;
   }
 
   async getUsers() {

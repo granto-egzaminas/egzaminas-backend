@@ -18,8 +18,7 @@ class CommentService {
     if (!ad) {
       throw new Error("Ad not found");
     }
-    ad.comment_ids.push(comment._id);
-    await ad.save();
+
     await Ad.findByIdAndUpdate(adId, {
       $push: { comment_ids: comment._id },
     });
