@@ -27,7 +27,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "24h" }
     );
     res.json({ message: "Login successful", user, token });
   } catch (error) {
@@ -49,7 +49,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 // get user
 const getUser = asyncHandler(async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.params.id;
 
   try {
     const user = await userService.getUser(userId);

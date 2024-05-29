@@ -18,8 +18,7 @@ class CommentService {
     if (!ad) {
       throw new Error("Ad not found");
     }
-    ad.comment_ids.push(comment._id);
-    await ad.save();
+
     await Ad.findByIdAndUpdate(adId, {
       $push: { comment_ids: comment._id },
     });
@@ -60,6 +59,15 @@ class CommentService {
     if (result.deletedCount === 0) {
       throw new Error("Comment not found");
     }
+
+    await Ad.findByIdAndUpdate(adId, {
+      $pull: { comment_ids: commentId },
+    });
+
+    await User.findByIdAndUpdate(userId, {
+      $pull: { comment_ids: commentId },
+    });
+
     return result;
   }
 }

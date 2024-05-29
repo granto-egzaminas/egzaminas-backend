@@ -24,7 +24,9 @@ class FavoriteService {
     await User.findByIdAndUpdate(userId, {
       $push: { favorite_ids: favorite._id },
     });
-
+    await Ad.findByIdAndUpdate(adId, {
+      $push: { favorite_ids: favorite._id },
+    });
     return favorite;
   }
 
@@ -46,18 +48,13 @@ class FavoriteService {
     if (!ad) {
       throw new Error("Ad not found");
     }
-    ad.favorite_ids.pull({ _id: favorite._id });
-    await ad.save();
-
-    return favorite;
-    await Ad.findByIdAndUpdate(adId, {
-      $pull: { favorite_ids: favorite._id },
-    });
-
     await User.findByIdAndUpdate(userId, {
       $pull: { favorite_ids: favorite._id },
     });
 
+    await Ad.findByIdAndUpdate(adId, {
+      $pull: { favorite_ids: favorite._id },
+    });
     return favorite;
   }
 

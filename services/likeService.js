@@ -21,6 +21,9 @@ class LikeService {
     await User.findByIdAndUpdate(userId, {
       $push: { like_ids: like._id },
     });
+    await Ad.findByIdAndUpdate(adId, {
+      $push: { like_ids: like._id },
+    });
 
     return like;
   }
@@ -43,18 +46,14 @@ class LikeService {
     if (!ad) {
       throw new Error("Ad not found");
     }
-    ad.like_ids.pull({ _id: like._id });
-    await ad.save();
-
-    return like;
-    await Ad.findByIdAndUpdate(adId, {
-      $pull: { like_ids: like._id },
-    });
 
     await User.findByIdAndUpdate(userId, {
       $pull: { like_ids: like._id },
     });
 
+    await Ad.findByIdAndUpdate(adId, {
+      $pull: { like_ids: like._id },
+    });
     return like;
   }
 
