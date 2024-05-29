@@ -23,4 +23,5 @@ router.post("/logout", verifyToken, logoutUser);
 router.get("/:id", verifyToken, getUser);
 router.get("/", verifyToken, getUsers);
 router.delete("/:id", verifyToken, checkAdminRole, blockUser);
+
 module.exports = router;

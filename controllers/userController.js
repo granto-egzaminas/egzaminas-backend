@@ -1,10 +1,10 @@
 /** @format */
 
 // userController.js
-
 const userService = require("../services/userService");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
+const User = require("../models/userModel"); // Add this line
 
 // user register
 const registerUser = asyncHandler(async (req, res) => {
@@ -70,7 +70,7 @@ const getUsers = asyncHandler(async (req, res) => {
 });
 
 // Block user
-const blockUser = async (req, res) => {
+const blockUser = asyncHandler(async (req, res) => {
   try {
     const userId = req.params.id;
     console.log(`Deleting user with ID: ${userId}`);
@@ -82,14 +82,14 @@ const blockUser = async (req, res) => {
     }
     console.log(`Found user: ${user}`);
     // Delete user from database
-    await user.remove();
+    await User.deleteOne({ _id: userId });
     console.log(`User deleted successfully: ${userId}`);
     res.status(200).send({ message: "User deleted successfully" });
   } catch (error) {
     console.error(`Error deleting user: ${error}`);
     res.status(400).send({ error: "User deletion failed" });
   }
-};
+});
 
 module.exports = {
   registerUser,
