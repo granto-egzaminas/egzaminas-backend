@@ -1,7 +1,7 @@
 const Ad = require("../models/adModel");
 const Category = require("../models/categoryModel");
 const User = require("../models/userModel");
-
+const Favorite = require("../models/favoriteModel")
 const { populate } = require("../models/adModel");
 
 class AdService {
@@ -35,6 +35,18 @@ class AdService {
 
     return ads;
   }
+
+  async getUsersFavoriteAds(userId) { 
+  
+    const favorites = await Favorite.find({ user_id: userId });
+    const favoriteIds = favorites.map(favorite => favorite._id);
+    // mongoDB $in operator efficiently finds multiple values
+    const ads = await Ad.find({ favorite_ids: { $in: favoriteIds } })
+    .populate("category_id", "name");
+
+    return ads;
+  }
+
   async getAdById(adId) {
     const ad = await Ad.findById(adId).populate("category_id", "name");
 

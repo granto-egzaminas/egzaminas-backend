@@ -10,7 +10,7 @@ const {
 } = require("../controllers/favoriteController");
 
 // middleware:
-const { verifyToken, checkAdminRole } = require("../Middleware/authMiddleware");
+const { verifyToken } = require("../Middleware/authMiddleware");
 
 // @ /api/favorites/
 
