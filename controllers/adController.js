@@ -52,6 +52,18 @@ const getAdsByUserId = asyncHandler(async (req, res) => {
   }
 });
 
+const getUsersFavoriteAds = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const ads = await adService.getUsersFavoriteAds(userId);
+    res.status(200).json({ message: "Ads retrieved successfully", ads });
+  } catch (error) {
+    res.status(400).json({ error: "Ads retrieval failed: " + error.message });
+  }
+});
+
+
 const updateAd = asyncHandler(async (req, res) => {
   const updates = req.body;
   const adId = req.params.id;
@@ -96,6 +108,7 @@ module.exports = {
   getAllAds,
   getAdById,
   getAdsByUserId,
+  getUsersFavoriteAds,
   updateAd,
   deleteAd,
   blockAd,

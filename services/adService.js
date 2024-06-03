@@ -1,6 +1,7 @@
 const Ad = require("../models/adModel");
 const Category = require("../models/categoryModel");
 const User = require("../models/userModel");
+const Favorite = require("../models/favoriteModel")
 
 const { populate } = require("../models/adModel");
 
@@ -35,6 +36,20 @@ class AdService {
 
     return ads;
   }
+
+  async getUsersFavoriteAds(userId) { 
+  
+    const favorites = await Favorite.find({ user_id: userId });
+
+  // Extract the _id values from the favorites
+    const favoriteIds = favorites.map(favorite => favorite._id);
+
+  // Find all ads that have a favorite_id in the list of favoriteIds
+    const ads = await Ad.find({ favorite_ids: { $in: favoriteIds } })
+    .populate("category_id", "name");
+    return ads;
+  }
+
   async getAdById(adId) {
     const ad = await Ad.findById(adId).populate("category_id", "name");
 
