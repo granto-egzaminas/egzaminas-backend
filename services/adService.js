@@ -5,8 +5,8 @@ const Favorite = require("../models/favoriteModel")
 const { populate } = require("../models/adModel");
 
 class AdService {
-  async createAd(image, price, description, categoryId, userId) {
-    if (!image || !price || !description || !categoryId || !userId) {
+  async createAd(image, price, description, categoryId, userId, adname) {
+    if (!image || !price || !description || !categoryId || !userId || !adname) {
       throw new Error("Please add all info");
     }
     const category = await Category.findById(categoryId);
@@ -20,6 +20,7 @@ class AdService {
       description: description,
       category_id: categoryId,
       user_id: userId,
+      adname : adname
     });
 
     await User.findByIdAndUpdate(userId, {

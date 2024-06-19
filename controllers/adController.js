@@ -6,7 +6,7 @@ const asyncHandler = require("express-async-handler");
 const adService = require("../services/adService");
 
 const createAd = asyncHandler(async (req, res) => {
-  const { image, price, description, categoryId } = req.body;
+  const { image, price, description, categoryId, adname } = req.body;
   const userId = req.user.id;
 
   try {
@@ -16,6 +16,7 @@ const createAd = asyncHandler(async (req, res) => {
       description,
       categoryId,
       userId,
+      adname
     );
     res.status(201).json({ message: "Ad created successfully", ad });
   } catch (error) {

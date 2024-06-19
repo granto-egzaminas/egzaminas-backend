@@ -23,6 +23,10 @@ const adSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  adname: {
+    type: String,
+    required: true,
+  },
   like_ids: [
     {
       type: mongoose.Schema.Types.ObjectId,
